@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChickChick - Your New Brand</title>
+    <style>
+        /* Custom color scheme with warmer tones */
+        :root {
+            --primary: #F59E0B;  /* Yellow */
+            --secondary: #EF4444; /* Red */
+            --dark: #1F2937;
+            --light: #F9FAFB;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            position: fixed;
+            width: 90%;
+            background-color: white;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 1rem 5%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .logo::before {
+            content: "🐣";
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            background: linear-gradient(135deg, #FEF3C7 0%, #FEE2E2 100%);
+            padding-top: 100px;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #6B7280;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3);
+        }
+        
+        /* Product section */
+        .products {
+            padding: 5rem 5%;
+            background-color: white;
+            scroll-margin-top: 100px;
+        }
+        
+        .products h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            background-color: #FFF7ED;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .product-card h3 {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.2);
+        }
+        
+        .product-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Contact section */
+        .contact {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #FEE2E2 0%, #FEF3C7 100%);
+            scroll-margin-top: 100px;
+        }
+        
+        .contact h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <div class="logo" id="home-link">ChickChick</div>
+        <nav>
+            <ul>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#solutions">Solutions</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Welcome to ChickChick</h1>
+            <p>Your new favorite brand that's as fresh and lively as a newborn chick. We bring energy and innovation to everything we do.</p>
+            <button class="btn" id="cta-btn">Get Started</button>
+        </div>
+        <div class="hero-image">
+            <span style="font-size: 10rem;">🐣</span>
+        </div>
+    </section>
+
+    <section class="products" id="products">
+        <h2>Our Products</h2>
+        <div class="product-grid">
+            <div class="product-card" data-product="eggcellent">
+                <div class="product-icon">🥚</div>
+                <h3>Eggcellent Solutions</h3>
+                <p>Perfect for your beginning stages with our starter package.</p>
+                <button class="btn product-btn" style="margin-top: 1rem;">Learn More</button>
+            </div>
+            <div class="product-card" data-product="growing">
+                <div class="product-icon">🐥</div>
+                <h3>Growing Chicks</h3>
+                <p>For when you're ready to spread your wings and grow.</p>
+                <button class="btn product-btn" style="margin-top: 1rem;">Learn More</button>
+            </div>
+            <div class="product-card" data-product="flock">
+                <div class="product-icon">🐔</div>
+                <h3>Full Flock</h3>
+                <p>Our complete solution for established businesses.</p>
+                <button class="btn product-btn" style="margin-top: 1rem;">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="products" id="solutions">
+        <h2>Our Solutions</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-icon">🌱</div>
+                <h3>Early Hatch</h3>
+                <p>Special care for your startup needs with our incubation program.</p>
+                <button class="btn product-btn" style="margin-top: 1rem;">View Details</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon">🚀</div>
+                <h3>Rapid Growth</h3>
+                <p>Accelerate your business with our growth solutions.</p>
+                <button class="btn product-btn" style="margin-top: 1rem;">View Details</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon">🏆</div>
+                <h3>Premium Care</h3>
+                <p>VIP treatment for your enterprise-level requirements.</p>
+                <button class="btn product-btn" style="margin-top: 1rem;">View Details</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="products" id="pricing">
+        <h2>Simple Pricing</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-icon">💰</div>
+                <h3>Starter Pack</h3>
+                <p><strong>$9.99/month</strong><br>Perfect for small businesses</p>
+                <button class="btn product-btn" style="margin-top: 1rem;">Choose Plan</button>
+            </div>
+            <div class="product-card" style="transform: scale(1.05); border: 2px solid var(--primary);">
+                <div class="product-icon">💎</div>
+                <h3>Pro Flock</h3>
+                <p><strong>$29.99/month</strong><br>Our most popular package</p>
+                <button class="btn product-btn" style="margin-top: 1rem; background: linear-gradient(90deg, var(--primary), var(--secondary));">Choose Plan</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon">👑</div>
+                <h3>Enterprise</h3>
+                <p><strong>Custom Pricing</strong><br>Tailored solutions for your needs</p>
+                <button class="btn product-btn" style="margin-top: 1rem;">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2>Get In Touch</h2>
+        <form class="contact-form" id="contact-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+        </form>
+    </section>
+
+    <div class="modal" id="product-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal">&times;</button>
+            <div id="modal-icon" style="font-size: 3rem; margin-bottom: 1rem;">🐣</div>
+            <h2 id="modal-title">Product Details</h2>
+            <p id="modal-description">Here are the details about this product.</p>
+            <button class="btn" id="modal-action-btn">Get This Product</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-logo" id="footer-home-link">🐣 ChickChick</div>
+        <div class="footer-links">
+            <a href="#products">Products</a>
+            <a href="#solutions">Solutions</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#contact">Contact</a>
+            <a href="#" id="privacy-link">Privacy</a>
+        </div>
+        <p>© 2023 ChickChick. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a, .footer-logo, .footer-links a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerHeight = document.getElementById('main-header').offsetHeight;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('product-modal');
+        const closeModal = document.getElementById('close-modal');
+        const productButtons = document.querySelectorAll('.product-btn');
+        
+        productButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('h3').textContent;
+                const productDesc = productCard.querySelector('p').textContent;
+                const productIcon = productCard.querySelector('.product-icon').textContent;
+                
+                document.getElementById('modal-icon').textContent = productIcon;
+                document.getElementById('modal-title').textContent = productName;
+                document.getElementById('modal-description').textContent = productDesc;
+                document.getElementById('modal-action-btn').textContent = 
+                    productName.includes('Pricing') ? 'Choose Plan' : 'Get This Product';
+                
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // CTA button functionality
+        document.getElementById('cta-btn').addEventListener('click', () => {
+            window.scrollTo({
+                top: document.getElementById('pricing').getBoundingClientRect().top + window.pageYOffset - 100,
+                behavior: 'smooth'
+            });
+        });
+
+        // Form submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // In a real app, you would send this data to a server
+            console.log('Form submitted:', { name, email, message });
+            
+            // Show success in modal
+            document.getElementById('modal-icon').textContent = '✓';
+            document.getElementById('modal-title').textContent = 'Message Sent!';
+            document.getElementById('modal-description').textContent = 'Thank you for contacting us. We\'ll get back to you soon!';
+            document.getElementById('modal-action-btn').textContent = 'Close';
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Privacy link
+        document.getElementById('privacy-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('modal-icon').textContent = '🔒';
+            document.getElementById('modal-title').textContent = 'Privacy Policy';
+            document.getElementById('modal-description').textContent = 'We respect your privacy. Your data is safe with us and will never be shared with third parties without your consent.';
+            document.getElementById('modal-action-btn').textContent = 'I Understand';
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Modal action button
+        document.getElementById('modal-action-btn').addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+    </script>
+</body>
+</html>
+
